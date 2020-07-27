@@ -15,6 +15,7 @@ namespace Vic.SportsStore.WebApp
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             //my code
+            IocConfig.ConfigIoc();
         }
     }
 }

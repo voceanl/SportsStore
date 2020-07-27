@@ -11,13 +11,20 @@ namespace Vic.SportsStore.WebApp.Controllers
     public class ProductController : Controller
     {
         // GET: Product
-        public IProductsRepository ProductsRepository { get; set; }
-            = new InMemoryProductRepository();
+        //public IProductsRepository ProductsRepository { get; set; }
 
-       public ViewResult List()
+        //through "constructor method" by "Dependence injection"
+        private IProductsRepository _productsRepository;
+        public ProductController(IProductsRepository productsRepository)
         {
-            var model = ProductsRepository.Products;
+            _productsRepository = productsRepository;
+        }
+
+        public ViewResult List()
+        {
+            var model = _productsRepository.Products;
             return View(model);
         }
+
     }
 }
