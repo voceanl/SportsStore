@@ -17,8 +17,7 @@ namespace Vic.SportsStore.Domain.Concrete
             new Product {Name="Running shoes", Price =95},
             new Product { Name = "Snow board", Price = 309},
             new Product {Name="Skin shoes", Price =195}
-        };
-         
+        };   
         public IEnumerable<Product> Products
         {
             get

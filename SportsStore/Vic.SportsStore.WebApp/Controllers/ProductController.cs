@@ -7,13 +7,13 @@ using Vic.SportsStore.Domain.Abstract;
 using Vic.SportsStore.Domain.Concrete;
 
 namespace Vic.SportsStore.WebApp.Controllers
-{
-    public class ProductController : Controller
+{    public class ProductController : Controller
     {
         // GET: Product
         //public IProductsRepository ProductsRepository { get; set; }
 
-        //through "constructor method" by "Dependence injection"
+        //through "constructor method" by "Dependence injection", constructor or property injection.
+        //property injection use "_productsRepository"; constructor use "ProductsRepository".
         private IProductsRepository _productsRepository;
         public ProductController(IProductsRepository productsRepository)
         {
@@ -22,6 +22,7 @@ namespace Vic.SportsStore.WebApp.Controllers
 
         public ViewResult List()
         {
+            //var model = ProductsRepository.Products;
             var model = _productsRepository.Products;
             return View(model);
         }
