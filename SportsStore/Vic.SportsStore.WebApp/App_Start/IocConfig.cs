@@ -21,7 +21,7 @@ namespace Vic.SportsStore.WebApp
                 .PropertiesAutowired();
 
             builder
-                .RegisterInstance<IProductsRepository>(new InMemoryProductRepository())
+                .RegisterInstance<IProductsRepository>(new EFProductRepository())
                 .PropertiesAutowired();
 
             var container = builder.Build();
