@@ -37,22 +37,34 @@ namespace Vic.SportsStore.WebApp.Controllers
             return View(model);
         }*/
 
-        public ViewResult List(int page = 1)
+        public ViewResult List(string category, int page = 1)
         {
             ProductsListViewModel model = new ProductsListViewModel
             {
                 Products = ProductsRepository
                 .Products
+                .Where(p => category == null || p.Category == category)
                 .OrderBy(p => p.ProductId)
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize),
+
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = ProductsRepository.Products.Count()
-                }
+                    /*TotalItems = ProductsRepository
+                      .Products
+                      .Where(p => category == null || p.Category == category)
+                      .Count()*/
+
+                    TotalItems = category == null
+                    ? ProductsRepository.Products.Count()
+                    : ProductsRepository.Products.Where(e => e.Category == category).Count()
+                },
+
+                CurrentCategory = category 
             };
+
             return View(model);
         }
 
