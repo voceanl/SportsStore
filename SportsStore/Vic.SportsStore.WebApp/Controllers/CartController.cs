@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Vic.SportsStore.Domain.Abstract;
 using Vic.SportsStore.Domain.Concrete;
 using Vic.SportsStore.Domain.Entities;
@@ -17,7 +18,15 @@ namespace Vic.SportsStore.WebApp.Controllers
         {
             repository = repo;
         }
-        public RedirectToRouteResult AddToCart(int productId, string returnUrl)
+        public ViewResult Index(Cart cart,string returnUrl)
+        {
+            return View(new CartIndexViewModel
+            {
+                Cart = cart,
+                ReturnUrl = returnUrl
+            });
+        }
+        public RedirectToRouteResult AddToCart(Cart cart,int productId, string returnUrl)
         {
             Product product = repository
                 .Products
@@ -25,22 +34,22 @@ namespace Vic.SportsStore.WebApp.Controllers
 
             if (product != null)
             {
-                GetCart().AddItem(product, 1);
+                cart.AddItem(product, 1);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
-        public RedirectToRouteResult RemoveFromCart(int productId, string returnUrl)
+        public RedirectToRouteResult RemoveFromCart(Cart cart,int productId, string returnUrl)
         {
             Product product = repository
                 .Products
                 .FirstOrDefault(p => p.ProductId == productId);
             if (product != null)
             {
-                GetCart().RemoveLine(product);
+                cart.RemoveLine(product);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
-        private Cart GetCart()
+        /*private Cart GetCart()
         {
             Cart cart = (Cart)Session["Cart"];
             if (cart == null)
@@ -49,14 +58,7 @@ namespace Vic.SportsStore.WebApp.Controllers
                 Session["Cart"] = cart;
             }
             return cart;
-        }
-        public ViewResult Index(string returnUrl)
-        {
-            return View(new CartIndexViewModel
-            {
-                Cart = GetCart(),
-                ReturnUrl = returnUrl
-            });
-        }
+        }*/
+                       
     }
 }
