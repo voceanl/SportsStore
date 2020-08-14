@@ -14,9 +14,11 @@ namespace Vic.SportsStore.WebApp.Controllers
     public class CartController : Controller
     {
         private IProductsRepository repository;
-        public CartController(IProductsRepository repo)
+        private IOrderProcessor orderProcessor;
+        public CartController(IProductsRepository repo, IOrderProcessor proc)
         {
             repository = repo;
+            orderProcessor = proc;
         }
         public ViewResult Index(Cart cart,string returnUrl)
         {
@@ -49,16 +51,34 @@ namespace Vic.SportsStore.WebApp.Controllers
             }
             return RedirectToAction("Index", new { returnUrl });
         }
-        /*private Cart GetCart()
+       
+        public PartialViewResult Summary(Cart cart)
         {
-            Cart cart = (Cart)Session["Cart"];
-            if (cart == null)
+            return PartialView(cart);
+        }
+        public ViewResult Checkout()
+        {
+            return View(new ShippingDetails());
+        }
+
+        [HttpPost]
+        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
+        {
+            if (cart.Lines.Count() == 0)
             {
-                cart = new Cart();
-                Session["Cart"] = cart;
+                ModelState.AddModelError("", "Sorry, your cart is empty!");
             }
-            return cart;
-        }*/
-                       
+            if (ModelState.IsValid)
+            {
+                orderProcessor.ProcessOrder(cart, shippingDetails);
+                cart.Clear();
+                return View("Completed");
+            }
+            else
+            {
+                return View(shippingDetails);
+            }
+        }
+
     }
 }
