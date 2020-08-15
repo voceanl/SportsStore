@@ -6,11 +6,12 @@
 <p>Please enter your details, and we'll ship your goods right away!</p>
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary()
+    @*@Html.ValidationSummary()*@
     <h3>Ship to</h3>
     <div class="form-group">
         <label>Name</label>
         @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Name)
     </div>
     <h3>Address</h3>
     foreach (var property in ViewData.ModelMetadata.Properties)
@@ -20,8 +21,10 @@
             <div class="form-group">
                 <label>@(property.DisplayName ?? property.PropertyName)</label>
                 @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => property.PropertyName)
             </div>
         }
+
     }
     <h3>Options</h3>
     <div class="checkbox">

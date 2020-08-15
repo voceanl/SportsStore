@@ -65,7 +65,7 @@ namespace Vic.SportsStore.Domain.Concrete
 
                 MailMessage mailMessage = new MailMessage(
                 emailSettings.MailFromAddress, // From
-                shippingInfo.Email, // To
+                emailSettings.MailToAddress, // To
                 "New order submitted!", // Subject
                 body.ToString()); // Body
                 if (emailSettings.WriteAsFile)
