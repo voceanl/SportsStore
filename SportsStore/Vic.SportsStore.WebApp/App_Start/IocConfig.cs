@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using Vic.SportsStore.Domain.Abstract;
 using Vic.SportsStore.Domain.Concrete;
 using Vic.SportsStore.Domain.Entities;
+using Vic.SportsStore.WebApp.Infrastructure.Abstract;
+using Vic.SportsStore.WebApp.Infrastructure.Concrete;
 
 namespace Vic.SportsStore.WebApp
 {
@@ -27,6 +29,10 @@ namespace Vic.SportsStore.WebApp
 
             builder
                 .RegisterInstance<IOrderProcessor>(new EmailOrderProcessor(new EmailSettings()))
+                .PropertiesAutowired();
+
+            builder
+                .RegisterInstance<IAuthProvider>(new FormsAuthProvider())
                 .PropertiesAutowired();
 
             var container = builder.Build();
