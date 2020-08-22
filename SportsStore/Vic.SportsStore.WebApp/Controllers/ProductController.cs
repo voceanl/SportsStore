@@ -11,7 +11,6 @@ namespace Vic.SportsStore.WebApp.Controllers
 {
     public class ProductController : Controller
     {
-        // GET: Product
         public IProductsRepository ProductsRepository { get; set; }
 
         public const int PageSize = 5;
