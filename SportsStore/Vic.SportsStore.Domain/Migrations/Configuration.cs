@@ -10,6 +10,7 @@
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            //AutomaticMigrationDataLossAllowed = true;
             ContextKey = "Vic.SportsStore.Domain.Concrete.EFDbContext";
         }
 
